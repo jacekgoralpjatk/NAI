@@ -12,6 +12,8 @@ public class PerceptronPrediction {
     public static Perceptron perceptron;
     public static int checks = 0;
     public static int correctChecks = 0;
+    public static int[] setosa = {0,0};
+    public static int[] versicolor = {0,0};
 
     @SuppressWarnings("DuplicatedCode")
     public static void main(String[] args){
@@ -40,9 +42,12 @@ public class PerceptronPrediction {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Double[] weights = {(Double) 0.5, (Double) 0.5, (Double) 0.5, (Double) 0.5};
+        Double[] weights = new Double[4];
+        for (int i=0; i<weights.length; i++){
+            weights[i] = Math.random();
+        }
         System.out.println(Arrays.toString(weights));
-        perceptron = new Perceptron((Double)alfa, (Double)0d, weights);
+        perceptron = new Perceptron(alfa, Math.random(), weights);
         train();
         test();
 
@@ -77,6 +82,20 @@ public class PerceptronPrediction {
             checks++;
             if(decision == correctDecision)
                 correctChecks++;
+            switch (correctDecision){
+                case 0 -> {
+                    setosa[0]++;
+                    if(correctDecision == decision){
+                        setosa[1]++;
+                    }
+                }
+                default -> {
+                    versicolor[0]++;
+                    if(correctDecision == decision){
+                        versicolor[1]++;
+                    }
+                }
+            }
             System.out.println("decision: " + (decision == 0? "Iris-setosa" : "Iris-versicolor") +
                     "\tcorrect decision: " + (decision == 0? "Iris-setosa" : "Iris-versicolor") +
                     "\tcurrent accuracy: " + correctChecks*100/checks + "%");
@@ -116,14 +135,31 @@ public class PerceptronPrediction {
             checks++;
             if(decision == correctDecision)
                 correctChecks++;
+            switch (correctDecision){
+                case 0 -> {
+                    setosa[0]++;
+                    if(correctDecision == decision){
+                        setosa[1]++;
+                    }
+                }
+                default -> {
+                    versicolor[0]++;
+                    if(correctDecision == decision){
+                        versicolor[1]++;
+                    }
+                }
+            }
             System.out.println("decision: " + (decision == 0? "Iris-setosa" : "Iris-versicolor") +
-                    "\tcorrect decision: " + (decision == 0? "Iris-setosa" : "Iris-versicolor") +
+                    "\tcorrect decision: " + (correctDecision == 0? "Iris-setosa" : "Iris-versicolor") +
                     "\tcurrent accuracy: " + correctChecks*100/checks + "%");
         });
         System.out.println("""
                 -------------
                 TESTING ENDED
                 -------------""");
+        System.out.println("TESTING ACCURACY: " + correctChecks*100/checks + "%\n" +
+                "SETOSA ACCURACY: " + setosa[1]*100/setosa[0]+"%\n" +
+                "VERSICOLOR ACCURACY: " + versicolor[1]*100/versicolor[0]+"%\n");
     }
 
 }
