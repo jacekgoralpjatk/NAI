@@ -1,0 +1,7 @@
+Urządzenie składa się z umieszczonych obok siebie na wspólnej osi krążków o średnicy ok. 5 cm z nadrukowanymi na obwodzie literami alfabetu (na każdym w innej, losowo wybranej kolejności), które można niezależnie obracać. Osoba chcąca zaszyfrować wiadomość musi ułożyć z liter na sąsiednich dyskach tekst jawny, a następnie podać którykolwiek z pozostałych wierszy. Odbiorca wiadomości znając kolejność ułożenia dysków oraz szyfrogram może odszyfrować wiadomość. Funkcję klucza szyfrującego pełni tu kolejność w jakiej zostały ułożone krążki.
+
+W algorytmach symetrycznych klucz służy do szyfrowania i deszyfrowania wiadomości.
+
+Do obu tych czynności używa się tego samego klucza, dlatego powinien być znany tylko uczestnikom. Taki klucz jest przypisany do danej komunikacji, nie do posiadacza, dlatego zwykle do każdego połączenia jest generowany nowy klucz.
+
+Może do tego służyć np. (oparty na kryptografii asymetrycznej

@@ -1,0 +1,5 @@
+rogramowanie (ang. software) – ogół informacji w postaci zestawu instrukcji, zaimplementowanych interfejsów i zintegrowanych danych przeznaczonych dla komputera do realizacji wyznaczonych celów. Celem oprogramowania jest przetwarzanie danych w wyznaczonym przez twórcę zakresie. Określenie „oprogramowanie” może funkcjonować jako synonim terminów „program komputerowy” oraz „aplikacja”, przy czym stosuje się je zazwyczaj na oznaczenie większych programów oraz ich zbiorów.
+
+Oprogramowanie tworzą programiści w procesie programowania. Oprogramowanie jako przejaw twórczości jest chronione prawem autorskim, twórcy zezwalają na korzystanie z niego na warunkach określanych w licencji.
+
+Oprogramowanie pisane jest zazwyczaj przy użyciu różnych języków programowania z wykorzystaniem algorytmów. Programy przekształcające oprogramowanie z postaci źródłowej na binarną to kompilatory. Niektóre rodzaje oprogramowania napisane w całości w językach interpretowanych, mogą występować tylko w jednej postaci, spełniającej zadania źródła i programu wykonywalnego

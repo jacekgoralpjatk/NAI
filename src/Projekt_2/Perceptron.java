@@ -14,12 +14,7 @@ public class Perceptron {
     }
 
     public int calculateOutput(Double[] inputs){
-        assert inputs.length == weights.length;
-        double net = 0;
-        for(int i=0; i<weights.length; i++){
-            net += weights[i]*inputs[i];
-        }
-        return net >= teta ? 1 : 0;
+        return getNet(inputs) >= 0 ? 1 : 0;
     }
 
     public void train(Double[] inputs, int correctDecision, int realDecision){
@@ -30,6 +25,16 @@ public class Perceptron {
             weights[i] += (correctDecision-realDecision)*alfa*inputs[i];
         }
         teta -= (correctDecision-realDecision)*alfa;
+    }
+
+    public Double getNet(Double[] inputs){
+        assert inputs.length == weights.length;
+        double net = 0;
+        for(int i=0; i<weights.length; i++){
+            net += weights[i]*inputs[i];
+        }
+        net -= teta;
+        return net;
     }
 
     public Double getAlfa() {
