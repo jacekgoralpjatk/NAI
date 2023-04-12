@@ -42,7 +42,7 @@ public class PerceptronPrediction {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Double[] weights = new Double[4];
+        Double[] weights = new Double[trainList.get(0).getAllCoordinatesList().size()];
         for (int i=0; i<weights.length; i++){
             weights[i] = Math.random();
         }
@@ -82,18 +82,15 @@ public class PerceptronPrediction {
             checks++;
             if(decision == correctDecision)
                 correctChecks++;
-            switch (correctDecision){
-                case 0 -> {
-                    setosa[0]++;
-                    if(correctDecision == decision){
-                        setosa[1]++;
-                    }
+            if (correctDecision == 0) {
+                setosa[0]++;
+                if (correctDecision == decision) {
+                    setosa[1]++;
                 }
-                default -> {
-                    versicolor[0]++;
-                    if(correctDecision == decision){
-                        versicolor[1]++;
-                    }
+            } else {
+                versicolor[0]++;
+                if (correctDecision == decision) {
+                    versicolor[1]++;
                 }
             }
             System.out.println("decision: " + (decision == 0? "Iris-setosa" : "Iris-versicolor") +
