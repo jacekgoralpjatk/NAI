@@ -19,7 +19,7 @@ public class Perceptron {
 
     public void train(Double[] inputs, int correctDecision, int realDecision){
         assert inputs.length == weights.length;
-        System.out.println("t: c: "+correctDecision+"r: "+realDecision);
+        System.out.println("t: c: "+correctDecision+" r: "+realDecision);
         for(int i=0; i<weights.length; i++){
             //W' = W + (d - y)*a*X
             weights[i] += (correctDecision-realDecision)*alfa*inputs[i];
