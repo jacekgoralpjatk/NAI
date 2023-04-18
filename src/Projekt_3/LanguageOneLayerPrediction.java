@@ -57,7 +57,7 @@ public class LanguageOneLayerPrediction {
         for(int i=0; i<2; i++){
             Double[] weights = new Double[26];
             for(int j=0; j<weights.length; j++){
-                weights[j] = Math.random();
+                weights[j] = (Double) Math.random();
             }
             perceptrons.add(new Perceptron(0.2, Math.random(), weights));
         }
