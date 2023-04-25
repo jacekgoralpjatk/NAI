@@ -1,0 +1,13 @@
+Zaprojektuj końcówkę, która będzie zwracać dane na temat wszystkich recept. Jako opcjonalny
+parametr chcemy przyjmować nazwisko pacjenta. W przypadku podania wartości interesują nas
+tylko recepty wystawione dla danego pacjenta. W przeciwnym wypadku należy zwrócić kolekcję
+wszystkich recept zapisanych w bazie. Dane powinny być domyślnie zwracane od ostatnio
+wydanej recepty (malejąco). Nie musimy uwzględniać listy z przypisanymi do recepty lekami oraz
+danych osobistych doktora lub pacjenta. Poniżej zaprezentowany jest przykład żądania na jakie
+powinna odpowiadać końcówka. Pamiętaj o zwracaniu poprawnych kodów błędów.
+2. Przygotuj końcówkę, która doda leki do istniejącej recepty. Końcówka powinna przyjmować
+kolekcję leków, które mają zostać dodane. W momencie, kiedy w kolekcji pojawi się nieistniejący
+lek należy przerwać przetwarzanie żądania. Jeżeli do recepty jest już przypisany dany lek należy
+pominąć jego wstawienie. Pamiętaj, aby komunikację z bazą danych przeprowadzić w ramach
+pojedynczej transakcji i zwracać odpowiednie kody błędów HTTP.
+Przykład wysyłanego obiektu:

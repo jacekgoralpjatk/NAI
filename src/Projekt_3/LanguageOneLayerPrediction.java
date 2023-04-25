@@ -12,65 +12,77 @@ public class LanguageOneLayerPrediction {
     public static HashMap<String,String> trainMap;
     public static ArrayList<Perceptron> perceptrons;
     public static Layer layer;
+    public static List<Language> languages;
+    public static String languagesListedAsString = "";
+    public static String path = "C:\\Users\\jacek\\OneDrive\\Pulpit\\PJATK\\NAI\\NAI\\src\\Projekt_3\\resurces\\train";
 
     public static void main(String[] args){
         trainMap = new HashMap<>();
+        languages = new ArrayList<>();
 
-        List<String> englishTexts = new ArrayList<>();
-        List<String> polishTexts = new ArrayList<>();
+        File[] files = new File(path).listFiles();
 
-        // Read English texts
-        File englishFolder = new File("C:\\Users\\jacek\\OneDrive\\Pulpit\\PJATK\\NAI\\NAI\\src\\Projekt_3\\resurces\\angielski");
-        File[] files = englishFolder.listFiles();
         for (File file : files) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-                StringBuilder builder = new StringBuilder();
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                    builder.append("\n");
-                }
-                englishTexts.add(removeNonLatin(builder.toString()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            languages.add(new Language(file.getName(), file.getAbsolutePath()));
         }
 
-        // Read Polish texts
-        File polishFolder = new File("C:\\Users\\jacek\\OneDrive\\Pulpit\\PJATK\\NAI\\NAI\\src\\Projekt_3\\resurces\\polski");
-        for (File file : polishFolder.listFiles()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-                StringBuilder builder = new StringBuilder();
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                    builder.append("\n");
-                }
-                polishTexts.add(removeNonLatin(builder.toString()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        for (int i=0; i<languages.size(); i++){
+            languages.get(i).setCorrectAnswer(languages.size(), i);
         }
+
+//        List<String> englishTexts = new ArrayList<>();
+//        List<String> polishTexts = new ArrayList<>();
+//
+//        // Read English texts
+//        File englishFolder = new File("C:\\Users\\jacek\\OneDrive\\Pulpit\\PJATK\\NAI\\NAI\\src\\Projekt_3\\resurces\\angielski");
+//        for (File file : englishFolder.listFiles()) {
+//            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+//                String line;
+//                StringBuilder builder = new StringBuilder();
+//                while ((line = reader.readLine()) != null) {
+//                    builder.append(line);
+//                    builder.append("\n");
+//                }
+//                englishTexts.add(removeNonLatin(builder.toString()));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        // Read Polish texts
+//        File polishFolder = new File("C:\\Users\\jacek\\OneDrive\\Pulpit\\PJATK\\NAI\\NAI\\src\\Projekt_3\\resurces\\Niemiecki");
+//        for (File file : polishFolder.listFiles()) {
+//            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+//                String line;
+//                StringBuilder builder = new StringBuilder();
+//                while ((line = reader.readLine()) != null) {
+//                    builder.append(line);
+//                    builder.append("\n");
+//                }
+//                polishTexts.add(removeNonLatin(builder.toString()));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         perceptrons = new ArrayList<>();
 
-        for(int i=0; i<2; i++){
+        for(int i=0; i<languages.size(); i++){
             Double[] weights = new Double[26];
             for(int j=0; j<weights.length; j++){
                 weights[j] = Math.random();
             }
-            perceptrons.add(new Perceptron(0.7, Math.random(), weights));
+            perceptrons.add(new Perceptron(0.15, Math.random(), weights));
         }
 
         layer = new Layer(perceptrons);
 
-        String[] englishTextsArray = englishTexts.toArray(new String[0]);
-        String[] polishTextsArray = polishTexts.toArray(new String[0]);
-        for(int j=1; j<15; j++) {
+        for(int j=1; j<30; j++) {
             System.out.println(j + " epoch");
             for (int i = 0; i < 10; i++) {
-                layer.trainLayer(countLetters(englishTextsArray[i]), new int[]{0, 1});
-                layer.trainLayer(countLetters(polishTextsArray[i]), new int[]{1, 0});
+                for(int k=0; k<languages.size(); k++){
+                    layer.trainLayer(countLetters(languages.get(k).getTexts().get(i)), languages.get(k).getCorrectAnswer());
+                }
             }
         }
 
@@ -82,8 +94,13 @@ public class LanguageOneLayerPrediction {
                 """);
 
         for (int i = 0; i < 10; i++) {
-            layer.test(countLetters(englishTextsArray[i]), new int[]{0, 1});
-            layer.test(countLetters(polishTextsArray[i]), new int[]{1, 0});
+            for(int k=0; k<languages.size(); k++){
+                layer.test(countLetters(languages.get(k).getTexts().get(i)), languages.get(k).getCorrectAnswer());
+            }
+        }
+
+        for (int i=0; i<files.length; i++){
+            languagesListedAsString += i+1 + ". " + files[i].getName() + " ";
         }
 
         testUI();
@@ -100,9 +117,15 @@ public class LanguageOneLayerPrediction {
             case 1 -> {
                 System.out.println("New text path: ");
                 String path = new Scanner(System.in).nextLine();
-                System.out.println("Correct (1.english, 2.polish): ");
-                int correct = new Scanner(System.in).nextInt();
-                layer.test(countLetters(fileToString(path)), (correct == 1 ? new int[]{0, 1} : new int[]{1, 0}));
+
+                System.out.println("Correct (" + languagesListedAsString + "): ");
+                int correctIndex = new Scanner(System.in).nextInt() - 1;
+                int[] correctAnswer = new int[languages.size()];
+                for (int i=0; i<correctAnswer.length; i++){
+                    correctAnswer[i] = 0;
+                }
+                correctAnswer[correctIndex] = 1;
+                layer.test(countLetters(fileToString(path)), correctAnswer);
             }
             case 2 -> System.exit(1);
             default -> testUI();
