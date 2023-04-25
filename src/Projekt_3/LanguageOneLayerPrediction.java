@@ -13,10 +13,11 @@ public class LanguageOneLayerPrediction {
     public static ArrayList<Perceptron> perceptrons;
     public static Layer layer;
     public static List<Language> languages;
-    public static String languagesListedAsString = "";
+    public static String languagesListedAsString;
     public static String path = "C:\\Users\\jacek\\OneDrive\\Pulpit\\PJATK\\NAI\\NAI\\src\\Projekt_3\\resurces\\train";
 
     public static void main(String[] args){
+        languagesListedAsString = "";
         trainMap = new HashMap<>();
         languages = new ArrayList<>();
 
@@ -72,7 +73,7 @@ public class LanguageOneLayerPrediction {
             for(int j=0; j<weights.length; j++){
                 weights[j] = Math.random();
             }
-            perceptrons.add(new Perceptron(0.15, Math.random(), weights));
+            perceptrons.add(new Perceptron(0.2, Math.random(), weights));
         }
 
         layer = new Layer(perceptrons);
@@ -93,11 +94,15 @@ public class LanguageOneLayerPrediction {
                 =======================================================
                 """);
 
+//        layer.normalizePerceptrons();
         for (int i = 0; i < 10; i++) {
             for(int k=0; k<languages.size(); k++){
                 layer.test(countLetters(languages.get(k).getTexts().get(i)), languages.get(k).getCorrectAnswer());
             }
         }
+
+        if((layer.getAccurateChecks()/layer.getChecks())<0.95)
+            main(args);
 
         for (int i=0; i<files.length; i++){
             languagesListedAsString += i+1 + ". " + files[i].getName() + " ";

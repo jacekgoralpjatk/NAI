@@ -1,5 +1,7 @@
 package Projekt_2;
 
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+
 import java.util.Arrays;
 
 public class Perceptron {
@@ -64,4 +66,29 @@ public class Perceptron {
                 ", weights=" + Arrays.toString(weights) +
                 '}';
     }
+
+    public void normalize() {
+        // Tworzymy obiekt SummaryStatistics do obliczania średniej i odchylenia standardowego
+        SummaryStatistics stats = new SummaryStatistics();
+
+        // Dodajemy każdą wartość wagi do obiektu SummaryStatistics
+        for (double weight : weights) {
+            stats.addValue(weight);
+        }
+
+        // Obliczamy średnią wartość i odchylenie standardowe
+        double mean = stats.getMean();
+        double std = stats.getStandardDeviation();
+
+        // Tworzymy nowy wektor, który będzie przechowywał znormalizowane wagi
+        Double[] normalizedWeights = new Double[weights.length];
+
+        // Normalizujemy wagi poprzez podzielenie każdej wartości wagi przez odchylenie standardowe
+        for (int i = 0; i < weights.length; i++) {
+            normalizedWeights[i] = (weights[i] - mean) / std;
+        }
+
+        weights = normalizedWeights;
+    }
+
 }
